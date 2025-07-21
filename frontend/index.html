@@ -10,35 +10,43 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
     <style>
-        html, body { height: 100%; margin: 0; padding: 0; background: #1a1a1a; font-family: sans-serif; }
+        html, body { height: 100%; margin: 0; padding: 0; background: #1a1a1a; font-family: sans-serif; overflow: hidden; }
         #map { width: 100%; height: 100%; }
         .leaflet-bar a { background-color: #2c2c2c; color: #fff; border-bottom: 1px solid #444; }
         .leaflet-bar a:hover { background-color: #383838; }
         .leaflet-control-container .leaflet-control-timecontrol {
-            background-color: rgba(44, 44, 44, 0.8);
-            border: 1px solid #555;
-            padding: 5px;
-            color: #fff;
+            background-color: rgba(44, 44, 44, 0.8); border: 1px solid #555; padding: 5px; color: #fff;
         }
         .time-slider-wrapper .slider, .time-slider-wrapper .knob { background-color: #00bcd4; }
-        #device-selector {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-            padding: 8px;
-            background-color: rgba(44, 44, 44, 0.9);
-            color: #fff;
-            border: 1px solid #555;
-            border-radius: 4px;
+        .control-panel {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            display: flex; flex-direction: column; gap: 10px;
         }
+        #device-selector, #stats-container {
+            padding: 8px; background-color: rgba(44, 44, 44, 0.9); color: #fff;
+            border: 1px solid #555; border-radius: 4px; max-width: 280px;
+        }
+        #stats-container { max-height: calc(100vh - 80px); overflow-y: auto; }
+        .stat-group { border-bottom: 1px solid #444; padding: 8px 0; }
+        .stat-group:last-child { border-bottom: none; }
+        .stat-group h4 { margin: 0 0 8px 0; color: #00bcd4; text-transform: uppercase; font-size: 0.9em; }
+        .stat-item { display: flex; justify-content: space-between; font-size: 0.85em; margin-bottom: 4px; }
+        .stat-item span:first-child { color: #ccc; }
+        .stat-item span:last-child { font-weight: bold; text-align: right; }
+        #stats-container::-webkit-scrollbar { width: 8px; }
+        #stats-container::-webkit-scrollbar-track { background: #2c2c2c; }
+        #stats-container::-webkit-scrollbar-thumb { background: #555; }
+        #stats-container::-webkit-scrollbar-thumb:hover { background: #666; }
     </style>
 </head>
 <body>
     <div id="map"></div>
-    <select id="device-selector">
-        <option value="">Select a device</option>
-    </select>
+    <div class="control-panel">
+        <select id="device-selector"><option value="">Select a device</option></select>
+        <div id="stats-container">
+            <div id="stats-content">Select a device and move timeline...</div>
+        </div>
+    </div>
     <script id="map-logic-script" src="/js/map_logic.js"></script>
 </body>
 </html>
